@@ -64,11 +64,8 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-    Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    choco feature enable -n allowGlobalConfirmation    
-    choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-    choco install git python ninja dtc-msys2 gperf wget
-    cmd.exe /c 'C:\vagrant\provision_stage2.bat'
-  SHELL
+  config.vm.provision "file", source: "provision_stage2.bat", destination: "c:/"
+  config.vm.provision "shell", path: "provision_stage1.ps1", privileged: true
+  config.vm.provision "shell", path: "provision_stage2.ps1", privileged: true
+  config.vm.provision :shell, inline: "Restart-Computer -Force", privileged: true
 end
