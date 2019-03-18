@@ -8,6 +8,7 @@ setx ZEPHYR_TOOLCHAIN_VARIANT gnuarmemb
 setx GNUARMEMB_TOOLCHAIN_PATH C:\gnu_arm_embedded
 
 pip install west
+cd c:\
 west init zephyrproject
 cd zephyrproject
 west update
